@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { PageHeader } from "../_components/PageHeader";
+import PageHeader from "@/components/PageHeader";
 import {
   Table,
   TableBody,
@@ -39,7 +39,7 @@ export default function AdminProductsPage() {
 }
 
 async function ProductsTable() {
-  const products = await db.product.findMany({
+  const products = await db.photo.findMany({
     select: {
       id: true,
       name: true,

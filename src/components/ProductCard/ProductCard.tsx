@@ -17,7 +17,7 @@ type ProductCardProps = {
   name: string;
   priceInCents: number;
   description: string;
-  imagePath: string;
+  imageUrl: string;
 };
 
 export const ProductCard = ({
@@ -25,12 +25,12 @@ export const ProductCard = ({
   name,
   priceInCents,
   description,
-  imagePath,
+  imageUrl,
 }: ProductCardProps) => {
   return (
     <Card>
       <div className="relative w-full h-auto aspect-video">
-        <Image src={imagePath} fill alt={name} />
+        <Image src={imageUrl} fill alt={name} />
       </div>
       <CardHeader className="flex overflow-hidden flex-col">
         {name}

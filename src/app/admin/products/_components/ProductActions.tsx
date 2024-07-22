@@ -3,7 +3,7 @@
 import { useTransition } from "react";
 import {
   deleteProduct,
-  toggleProductAvailability,
+  togglePhotoAvailability,
 } from "../../_actions/products";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
@@ -22,7 +22,7 @@ export function ActiveToggleDropdownItem({
       disabled={isPending}
       onClick={() => {
         startTransition(async () => {
-          await toggleProductAvailability(id, !isAvailableForPurchase);
+          await togglePhotoAvailability(id, !isAvailableForPurchase);
           router.refresh();
         });
       }}

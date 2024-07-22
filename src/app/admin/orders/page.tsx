@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/table";
 import db from "@/db/db";
 import { formatCurrency } from "@/lib/formatters";
-import { PageHeader } from "../_components/PageHeader";
+import PageHeader from "@/components/PageHeader";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,7 +23,7 @@ function getOrders() {
     select: {
       id: true,
       pricePaidInCents: true,
-      product: { select: { name: true } },
+      photo: { select: { name: true } },
       user: { select: { email: true } },
     },
     orderBy: { createdAt: "desc" },
@@ -59,7 +59,7 @@ async function OrdersTable() {
       <TableBody>
         {orders.map((order) => (
           <TableRow key={order.id}>
-            <TableCell>{order.product.name}</TableCell>
+            <TableCell>{order.photo.name}</TableCell>
             <TableCell>{order.user.email}</TableCell>
             <TableCell>
               {formatCurrency(order.pricePaidInCents / 100)}

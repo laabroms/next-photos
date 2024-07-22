@@ -10,9 +10,9 @@ import {
 import { OrderInformation } from "./components/OrderInformation";
 
 type PurchaseReceiptEmailProps = {
-  product: {
+  photo: {
     name: string;
-    imagePath: string;
+    imageUrl: string;
     description: string;
   };
   order: { id: string; createdAt: Date; pricePaidInCents: number };
@@ -20,10 +20,10 @@ type PurchaseReceiptEmailProps = {
 };
 
 PurchaseReceiptEmail.PreviewProps = {
-  product: {
-    name: "Product name",
+  photo: {
+    name: "photo name",
     description: "Some description",
-    imagePath: "/products/eb8fa976-6be1-43eb-b826-86e4bd370809-vanessa.png",
+    imageUrl: "/photos/eb8fa976-6be1-43eb-b826-86e4bd370809-vanessa.png",
   },
   order: {
     id: crypto.randomUUID(),
@@ -34,23 +34,18 @@ PurchaseReceiptEmail.PreviewProps = {
 } satisfies PurchaseReceiptEmailProps;
 
 export default function PurchaseReceiptEmail({
-  product,
+  photo,
   order,
-  downloadVerificationId,
 }: PurchaseReceiptEmailProps) {
   return (
     <Html>
-      <Preview>Download {product.name} and view receipt</Preview>
+      <Preview>Download {photo.name} and view receipt</Preview>
       <Tailwind>
         <Head />
         <Body className="font-sans bg-white">
           <Container className="max-w-xl">
             <Heading>Purchase Receipt</Heading>
-            <OrderInformation
-              order={order}
-              product={product}
-              downloadVerificationId={downloadVerificationId}
-            />
+            <OrderInformation order={order} photo={photo} />
           </Container>
         </Body>
       </Tailwind>

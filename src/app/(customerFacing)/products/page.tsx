@@ -4,7 +4,9 @@ import { cache } from "@/lib/cache";
 import { Suspense } from "react";
 
 const getProducts = cache(() => {
-  return db.product.findMany({
+  return [];
+
+  return db.photo.findMany({
     where: { isAvailableForPurchase: true },
     orderBy: { name: "asc" },
   });
@@ -34,7 +36,7 @@ export default function ProductsPage() {
 async function ProductsSuspense() {
   const products = await getProducts();
 
-  return products.map((product) => (
+  return products?.map((product) => (
     <ProductCard key={product.id} {...product} />
   ));
 }

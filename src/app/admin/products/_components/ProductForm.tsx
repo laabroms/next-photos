@@ -65,7 +65,7 @@ export function ProductForm({ product }: { product?: Product | null }) {
           <Label htmlFor="file">File</Label>
           <Input type="file" id="file" name="file" />
           {!!product && (
-            <div className="text-muted-foreground">{product.filePath}</div>
+            <div className="text-muted-foreground">{product.imageUrl}</div>
           )}
           {error.file && <div className="text-destructive">{error.file}</div>}
         </div>

@@ -2,14 +2,14 @@ import { ProductCard, ProductCardSkeleton } from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import db from "@/db/db";
 import { cache } from "@/lib/cache";
-import { Product } from "@prisma/client";
+import { Photo } from "@prisma/client";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
 const getMostPopularProducts = cache(
   () => {
-    return db.product.findMany({
+    return db.photo.findMany({
       where: { isAvailableForPurchase: true },
       orderBy: { orders: { _count: "desc" } },
       take: 6,
@@ -20,7 +20,7 @@ const getMostPopularProducts = cache(
 );
 
 const getNewestProducts = cache(() => {
-  return db.product.findMany({
+  return db.photo.findMany({
     where: { isAvailableForPurchase: true },
     orderBy: { createdAt: "desc" },
     take: 6,
@@ -40,7 +40,7 @@ export default function HomePage() {
 }
 
 type ProductGridSectionProps = {
-  productsFetcher: () => Promise<Product[]>;
+  productsFetcher: () => Promise<Photo[]>;
   title: string;
 };
 
@@ -79,7 +79,7 @@ function ProductGridSection({
 async function ProductSuspense({
   productsFetcher,
 }: {
-  productsFetcher: () => Promise<Product[]>;
+  productsFetcher: () => Promise<Photo[]>;
 }) {
   return (await productsFetcher()).map((product) => (
     <ProductCard key={product.id} {...product} />

@@ -27,11 +27,11 @@ export async function emailOrderHistory(
           pricePaidInCents: true,
           id: true,
           createdAt: true,
-          product: {
+          photo: {
             select: {
               id: true,
               name: true,
-              imagePath: true,
+              imageUrl: true,
               description: true,
             },
           },
@@ -47,19 +47,21 @@ export async function emailOrderHistory(
     };
   }
 
-  const orders = user.orders.map(async (order) => {
-    return {
-      ...order,
-      downloadVerificationId: (
-        await db.downloadVerification.create({
-          data: {
-            expiresAt: new Date(Date.now() + 24 * 1000 * 60 * 60),
-            productId: order.product.id,
-          },
-        })
-      ).id,
-    };
-  });
+  const orders = user.orders;
+
+  // const orders = user.orders.map(async (order) => {
+  //   return {
+  //     ...order,
+  //     downloadVerificationId: (
+  //       await db.downloadVerification.create({
+  //         data: {
+  //           expiresAt: new Date(Date.now() + 24 * 1000 * 60 * 60),
+  //           productId: order.photo.id,
+  //         },
+  //       })
+  //     ).id,
+  //   };
+  // });
 
   const data = await resend.emails.send({
     from: `Support <${process.env.SENDER_EMAIL}>`,

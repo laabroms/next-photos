@@ -2,52 +2,71 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
 }
 
 model Product {
-  id                     String                 @id @default(uuid())
-  name                   String
-  priceInCents           Int
-  filePath               String
-  imagePath              String
-  description            String
-  isAvailableForPurchase Boolean                @default(true)
-  createdAt              DateTime               @default(now())
-  updatedAt              DateTime               @updatedAt
-  orders                 Order[]
-  downloadVerifications  DownloadVerification[]
+    id                     String   @id @default(uuid())
+    name                   String
+    priceInCents           Int
+    description            String
+    isAvailableForPurchase Boolean  @default(true)
+    createdAt              DateTime @default(now())
+    updatedAt              DateTime @updatedAt
+    orders                 Order[]
+    photo                  Photo    @relation(fields: [photoId], references: [id], onDelete: Cascade)
+    photoId                String
+}
+
+model Photo {
+    id          String    @id @default(uuid())
+    name        String
+    description String
+    imageId     String
+    isVisible   Boolean   @default(true)
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+    orders      Order[]
+    category    Category  @relation(fields: [categoryId], references: [id])
+    categoryId  String
+    product     Product[]
+}
+
+model Category {
+    id          String   @id @default(uuid())
+    name        String   @unique()
+    description String
+    imageId     String
+    isVisible   Boolean  @default(true)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    photos      Photo[]
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  orders    Order[]
+    id        String   @id @default(uuid())
+    isAdmin   Boolean  @default(false)
+    email     String   @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    orders    Order[]
 }
 
 model Order {
-  id               String   @id @default(uuid())
-  pricePaidInCents Int
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+    id               String   @id @default(uuid())
+    pricePaidInCents Int
+    createdAt        DateTime @default(now())
+    updatedAt        DateTime @updatedAt
 
-  userId    String
-  productId String
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product   Product @relation(fields: [productId], references: [id], onDelete: Restrict)
-}
-
-model DownloadVerification {
-  id        String   @id @default(uuid())
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-  productId String
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+    userId    String
+    photoId   String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    photo     Photo    @relation(fields: [photoId], references: [id], onDelete: Restrict)
+    product   Product? @relation(fields: [productId], references: [id])
+    productId String?
 }

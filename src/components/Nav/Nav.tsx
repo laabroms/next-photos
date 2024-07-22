@@ -1,10 +1,36 @@
-import { ReactNode } from "react";
+import { PATHS } from "@/utils/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { NavSheet } from "./NavSheet";
+import { NavItem } from "./types";
+import NavLink from "./NavLink";
 
-const Nav = ({ children }: { children: ReactNode }) => {
+export type NavProps = {
+  navItems: NavItem[];
+};
+
+const Nav = ({ navItems }: NavProps) => {
   return (
-    <nav className="bg-primary text-primary-foreground flex justify-center px-4">
-      {children}
-    </nav>
+    <header className="py-2">
+      <div className="container flex justify-between items-center">
+        <Link href={PATHS.HOME}>
+          <Image
+            src="/assets/logo-dark.png"
+            alt="Lucas Abroms Photography"
+            width={50}
+            height={50}
+          />
+        </Link>
+        <nav className="hidden items-center gap-4 md:flex">
+          {navItems.map((item) => (
+            <NavLink key={item.label} href={item.href}>
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
+        <NavSheet navItems={navItems} />
+      </div>
+    </header>
   );
 };
 

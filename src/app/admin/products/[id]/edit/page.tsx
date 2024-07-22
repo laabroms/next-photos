@@ -1,5 +1,5 @@
 import db from "@/db/db";
-import { PageHeader } from "../../../_components/PageHeader";
+import PageHeader from "@/components/PageHeader";
 import { ProductForm } from "../../_components/ProductForm";
 
 export default async function EditProductPage({
@@ -7,7 +7,7 @@ export default async function EditProductPage({
 }: {
   params: { id: string };
 }) {
-  const product = await db.product.findUnique({ where: { id } });
+  const product = await db.photo.findUnique({ where: { id } });
   return (
     <>
       <PageHeader>Edit Product</PageHeader>

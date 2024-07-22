@@ -1,4 +1,5 @@
-import { Nav, NavLink } from "@/components/Nav";
+import { Nav } from "@/components/Nav";
+import { adminNavItems } from "@/utils/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -7,12 +8,7 @@ export default function AdminLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <>
-      <Nav>
-        <NavLink href="/admin">Dashboard</NavLink>
-        <NavLink href="/admin/products">Products</NavLink>
-        <NavLink href="/admin/users">Customers</NavLink>
-        <NavLink href="/admin/orders">Sales</NavLink>
-      </Nav>
+      <Nav navItems={adminNavItems} />
       <div className="container my-6">{children}</div>
     </>
   );

@@ -7,16 +7,16 @@ export async function GET(
   req: NextRequest,
   { params: { id } }: { params: { id: string } }
 ) {
-  const product = await db.product.findUnique({
+  const product = await db.photo.findUnique({
     where: { id },
-    select: { filePath: true, name: true },
+    select: { imageUrl: true, name: true },
   });
 
   if (!product) return notFound();
 
-  const { size } = await fs.stat(product.filePath);
-  const file = await fs.readFile(product.filePath);
-  const extension = product.filePath.split(".").pop();
+  const { size } = await fs.stat(product.imageUrl);
+  const file = await fs.readFile(product.imageUrl);
+  const extension = product.imageUrl.split(".").pop();
 
   return new NextResponse(file, {
     headers: {
