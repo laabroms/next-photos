@@ -86,7 +86,12 @@ async function CategoriesTable() {
               )}
             </TableCell>
             <TableCell>
-              <CloudinaryImage imageId={category.imageId} alt={category.name} />
+              <CloudinaryImage
+                imageId={category.imageId}
+                alt={category.name}
+                height={200}
+                width={200}
+              />
             </TableCell>
             <TableCell>
               <Link

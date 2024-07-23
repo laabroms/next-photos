@@ -71,7 +71,12 @@ export function PhotoForm({
         <Label htmlFor="image">Image</Label>
         <Input type="file" id="image" name="image" required={!photo} />
         {!!photo && (
-          <CloudinaryImage imageId={photo.imageId} alt={photo.name} />
+          <CloudinaryImage
+            imageId={photo.imageId}
+            alt={photo.name}
+            height={200}
+            width={200}
+          />
         )}
         {error.image && <div className="text-destructive">{error.image}</div>}
       </div>

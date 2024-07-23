@@ -1,10 +1,10 @@
-import { CategoryCard } from "@/components/CategoryCard";
+import { ImageGallery } from "@/components/ImageGallery";
 import { PhotoCard, PhotoCardSkeleton } from "@/components/PhotoCard";
-import { ProductCardSkeleton } from "@/components/ProductCard";
 import db from "@/db/db";
 import { cache } from "@/lib/cache";
 import React, { Suspense } from "react";
 
+<<<<<<< HEAD
 // const getPhotosByCategory = cache(
 //   (name) => {
 //     return db.category.findFirst({
@@ -23,6 +23,8 @@ import React, { Suspense } from "react";
 //   },
 //   ["getPhotosByCategory", "/categories/[name]"]
 // );
+=======
+>>>>>>> laabroms/image-gallery
 const getPhotosByCategory = (name: string) => {
   return db.category.findFirst({
     where: { name },
@@ -33,6 +35,11 @@ const getPhotosByCategory = (name: string) => {
           name: true,
           imageId: true,
           isVisible: true,
+<<<<<<< HEAD
+=======
+          width: true,
+          height: true,
+>>>>>>> laabroms/image-gallery
         },
       },
     },
@@ -45,7 +52,7 @@ export default function SelectedCategoryPage({
   params: { name: string };
 }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div>
       <Suspense
         fallback={
           <>
@@ -64,15 +71,28 @@ export default function SelectedCategoryPage({
   );
 }
 
+const widths = [500, 1000, 2000];
+const ratios = [2.2, 4, 6, 8];
+
 async function CategoriesSuspense({ name }: { name: string }) {
   const data = await getPhotosByCategory(name);
 
-  console.log(data);
-
-  if (data?.photos.length) {
-    return data?.photos?.map((photo) => (
-      <PhotoCard key={photo.id} {...photo} />
-    ));
+  if (data?.photos.length === 0) {
+    return "No photos found";
   }
-  return "No photos found";
+
+  const formattedImages = data!.photos.map((photo) => ({
+    ...photo,
+    aspect_ratio:
+      photo.width && photo.height ? photo.width / photo.height : 16 / 9,
+  }));
+
+  return (
+    <ImageGallery
+      widths={widths}
+      ratios={ratios}
+      images={formattedImages}
+      gap="2px"
+    />
+  );
 }
