@@ -43,17 +43,20 @@ export async function addPhoto(
       imageId,
       "photo"
     );
+
     await db.photo.create({
       data: {
         name: data.name,
         description: data.description || "",
         imageId: uploadResult.public_id,
         categoryId: data.categoryId,
+        height: uploadResult.height,
+        width: uploadResult.width,
       },
     });
 
     revalidatePath(ROUTES.HOME.PATH);
-    revalidatePath(ROUTES.CATEGORY.PATH);
+    revalidatePath(ROUTES.CATEGORY.PATH, "page");
     revalidatePath(ROUTES.ADMIN.PHOTOS.BASE.PATH);
     redirect(
       selectedCategoryId
@@ -89,6 +92,9 @@ export async function updatePhoto(
 
   let imageId = photo.imageId;
 
+  let height = photo.height;
+  let width = photo.width;
+
   if (data.image && data.image.size > 0) {
     // Upload new image
     const arrayBuffer = await data.image.arrayBuffer();
@@ -103,23 +109,27 @@ export async function updatePhoto(
         "category"
       );
       imageId = uploadResult.public_id;
+      height = uploadResult.height;
+      width = uploadResult.width;
     } catch (error: any) {
       console.error("Failed to upload image:", error);
       return error.message || "Failed to upload";
     }
   }
 
-  await db.category.update({
+  await db.photo.update({
     where: { id },
     data: {
       name: data.name,
       description: data.description,
       imageId,
+      height,
+      width,
     },
   });
 
   revalidatePath(ROUTES.HOME.PATH);
-  revalidatePath(ROUTES.CATEGORY.PATH);
+  revalidatePath(ROUTES.CATEGORY.PATH, "page");
 
   revalidatePath(ROUTES.ADMIN.PHOTOS.BASE.PATH);
 
@@ -134,7 +144,7 @@ export async function togglePhotoVisibility(id: string, isVisible: boolean) {
   await db.photo.update({ where: { id }, data: { isVisible } });
 
   revalidatePath(ROUTES.HOME.PATH);
-  revalidatePath(ROUTES.CATEGORY.PATH);
+  revalidatePath(ROUTES.CATEGORY.PATH, "page");
   revalidatePath(ROUTES.ADMIN.CATEGORIES.BASE.PATH);
 }
 
@@ -145,6 +155,6 @@ export async function deletePhoto(id: string) {
 
   deleteImageFromCloudinary(photo.imageId);
   revalidatePath(ROUTES.HOME.PATH);
-  revalidatePath(ROUTES.CATEGORY.PATH);
+  revalidatePath(ROUTES.CATEGORY.PATH, "page");
   revalidatePath(ROUTES.ADMIN.CATEGORIES.BASE.PATH);
 }
