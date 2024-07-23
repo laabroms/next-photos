@@ -47,7 +47,7 @@ export async function addCategory(prevState: unknown, formData: FormData) {
     });
 
     revalidatePath(ROUTES.HOME.PATH);
-    revalidatePath(ROUTES.CATEGORY.PATH);
+    revalidatePath(ROUTES.CATEGORY.PATH, "page");
     revalidatePath(ROUTES.ADMIN.CATEGORIES.BASE.PATH);
     redirect(ROUTES.ADMIN.CATEGORIES.BASE.PATH);
   } catch (error: any) {
@@ -108,7 +108,7 @@ export async function updateCategory(
   });
 
   revalidatePath(ROUTES.HOME.PATH);
-  revalidatePath(ROUTES.CATEGORY.PATH);
+  revalidatePath(ROUTES.CATEGORY.PATH, "page");
   revalidatePath(ROUTES.ADMIN.CATEGORIES.BASE.PATH);
 
   redirect(ROUTES.ADMIN.CATEGORIES.BASE.PATH);
@@ -128,6 +128,6 @@ export async function deleteCategory(id: string) {
 
   deleteImageFromCloudinary(category.imageId);
   revalidatePath(ROUTES.HOME.PATH);
-  revalidatePath(ROUTES.CATEGORY.PATH);
+  revalidatePath(ROUTES.CATEGORY.PATH, "page");
   revalidatePath(ROUTES.ADMIN.CATEGORIES.BASE.PATH);
 }

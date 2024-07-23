@@ -52,9 +52,7 @@ export async function addPhoto(
       },
     });
 
-    revalidatePath(ROUTES.HOME.PATH);
-    revalidatePath(ROUTES.CATEGORY.PATH);
-    revalidatePath(ROUTES.ADMIN.PHOTOS.BASE.PATH);
+    revalidatePaths();
     redirect(
       selectedCategoryId
         ? ROUTES.ADMIN.CATEGORIES.ID.LINK(selectedCategoryId)
@@ -109,7 +107,7 @@ export async function updatePhoto(
     }
   }
 
-  await db.category.update({
+  await db.photo.update({
     where: { id },
     data: {
       name: data.name,
@@ -118,10 +116,7 @@ export async function updatePhoto(
     },
   });
 
-  revalidatePath(ROUTES.HOME.PATH);
-  revalidatePath(ROUTES.CATEGORY.PATH);
-
-  revalidatePath(ROUTES.ADMIN.PHOTOS.BASE.PATH);
+  revalidatePaths();
 
   redirect(
     selectedCategoryId
@@ -133,9 +128,7 @@ export async function updatePhoto(
 export async function togglePhotoVisibility(id: string, isVisible: boolean) {
   await db.photo.update({ where: { id }, data: { isVisible } });
 
-  revalidatePath(ROUTES.HOME.PATH);
-  revalidatePath(ROUTES.CATEGORY.PATH);
-  revalidatePath(ROUTES.ADMIN.CATEGORIES.BASE.PATH);
+  revalidatePaths();
 }
 
 export async function deletePhoto(id: string) {
@@ -144,7 +137,14 @@ export async function deletePhoto(id: string) {
   if (photo === null) return notFound();
 
   deleteImageFromCloudinary(photo.imageId);
-  revalidatePath(ROUTES.HOME.PATH);
-  revalidatePath(ROUTES.CATEGORY.PATH);
-  revalidatePath(ROUTES.ADMIN.CATEGORIES.BASE.PATH);
+  revalidatePaths();
 }
+
+const revalidatePaths = () => {
+  revalidatePath(ROUTES.HOME.PATH);
+  revalidatePath(ROUTES.CATEGORY.PATH, "page");
+  revalidatePath(ROUTES.ADMIN.CATEGORIES.ID.PATH, "page");
+  revalidatePath(ROUTES.ADMIN.CATEGORIES.BASE.PATH, "page");
+  revalidatePath(ROUTES.ADMIN.CATEGORIES.BASE.PATH);
+  revalidatePath(ROUTES.ADMIN.PHOTOS.BASE.PATH);
+};

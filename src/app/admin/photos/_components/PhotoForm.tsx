@@ -28,19 +28,20 @@ export function PhotoForm({
   categories: Pick<Category, "name" | "id">[];
 }) {
   const searchParams = useSearchParams();
-
   const selectedCategoryId = searchParams.get("categoryId");
+
+  const [categoryId, setCategoryId] = useState<string>(
+    photo?.categoryId || selectedCategoryId || ""
+  );
 
   const [error, action] = useFormState(
     photo
-      ? updatePhoto.bind(null, photo.id).bind(null, selectedCategoryId)
-      : addPhoto.bind(null, selectedCategoryId),
+      ? updatePhoto.bind(null, photo.id, categoryId)
+      : addPhoto.bind(null, categoryId),
     {}
   );
 
-  const [categoryId, setCategoryId] = useState<string | undefined>(
-    selectedCategoryId || undefined
-  );
+  console.log(categories);
 
   return (
     <form action={action} className="space-y-8 mt-8">
@@ -80,6 +81,7 @@ export function PhotoForm({
           name="categoryId"
           value={categoryId}
           onValueChange={(val) => setCategoryId(val)}
+          required
         >
           <SelectTrigger>
             <SelectValue placeholder="Select a category" />

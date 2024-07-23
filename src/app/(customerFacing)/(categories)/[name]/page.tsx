@@ -5,24 +5,39 @@ import db from "@/db/db";
 import { cache } from "@/lib/cache";
 import React, { Suspense } from "react";
 
-const getPhotosByCategory = cache(
-  (name) => {
-    return db.category.findFirst({
-      where: { name },
-      select: {
-        photos: {
-          select: {
-            id: true,
-            name: true,
-            imageId: true,
-            isVisible: true,
-          },
+// const getPhotosByCategory = cache(
+//   (name) => {
+//     return db.category.findFirst({
+//       where: { name },
+//       select: {
+//         photos: {
+//           select: {
+//             id: true,
+//             name: true,
+//             imageId: true,
+//             isVisible: true,
+//           },
+//         },
+//       },
+//     });
+//   },
+//   ["getPhotosByCategory", "/categories/[name]"]
+// );
+const getPhotosByCategory = (name: string) => {
+  return db.category.findFirst({
+    where: { name },
+    select: {
+      photos: {
+        select: {
+          id: true,
+          name: true,
+          imageId: true,
+          isVisible: true,
         },
       },
-    });
-  },
-  ["getPhotosByCategory", "/categories/[name]"]
-);
+    },
+  });
+};
 
 export default function SelectedCategoryPage({
   params: { name },
@@ -52,5 +67,12 @@ export default function SelectedCategoryPage({
 async function CategoriesSuspense({ name }: { name: string }) {
   const data = await getPhotosByCategory(name);
 
-  return data?.photos?.map((photo) => <PhotoCard key={photo.id} {...photo} />);
+  console.log(data);
+
+  if (data?.photos.length) {
+    return data?.photos?.map((photo) => (
+      <PhotoCard key={photo.id} {...photo} />
+    ));
+  }
+  return "No photos found";
 }
