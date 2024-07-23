@@ -16,6 +16,8 @@ export function CategoryForm({ category }: { category?: Category | null }) {
     {}
   );
 
+  const isErrorString = typeof error === "string";
+
   return (
     <form action={action} className="space-y-8 mt-8">
       <div className="space-y-2">
@@ -49,6 +51,9 @@ export function CategoryForm({ category }: { category?: Category | null }) {
         {error.image && <div className="text-destructive">{error.image}</div>}
       </div>
       <div className="space-y-2">
+        {!!error && isErrorString && (
+          <div className="text-destructive">{error}</div>
+        )}
         <SubmitButton />
       </div>
     </form>

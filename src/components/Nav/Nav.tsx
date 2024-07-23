@@ -1,4 +1,4 @@
-import { PATHS } from "@/utils/navigation";
+import { ROUTES } from "@/navigation/routes";
 import Image from "next/image";
 import Link from "next/link";
 import { NavSheet } from "./NavSheet";
@@ -13,7 +13,7 @@ const Nav = ({ navItems }: NavProps) => {
   return (
     <header className="py-2">
       <div className="container flex justify-between items-center">
-        <Link href={PATHS.HOME}>
+        <Link href={ROUTES.HOME.PATH}>
           <Image
             src="/assets/logo-dark.png"
             alt="Lucas Abroms Photography"

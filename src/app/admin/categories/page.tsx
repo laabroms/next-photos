@@ -23,7 +23,7 @@ import {
   ActiveToggleDropdownItem,
   DeleteDropdownItem,
 } from "./_components/CategoryActions";
-import { PATHS } from "@/utils/navigation";
+import { ROUTES } from "@/navigation/routes";
 import CloudinaryImage from "@/components/CloudinaryImage/CloudinaryImage";
 
 export default function AdminCategoriesPage() {
@@ -32,7 +32,7 @@ export default function AdminCategoriesPage() {
       <div className="flex justify-between items-center gap-4 mb-4">
         <PageHeader>Categories</PageHeader>
         <Button asChild>
-          <Link href={PATHS.ADMIN.CATEGORIES.NEW}>Add Category</Link>
+          <Link href={ROUTES.ADMIN.CATEGORIES.NEW.PATH}>Add Category</Link>
         </Button>
       </div>
       <CategoriesTable />
@@ -90,7 +90,7 @@ async function CategoriesTable() {
             </TableCell>
             <TableCell>
               <Link
-                href={PATHS.ADMIN.CATEGORIES.ID(category.id)}
+                href={ROUTES.ADMIN.CATEGORIES.ID.LINK(category.id)}
                 className="text-blue-600 hover:text-blue-500"
               >
                 {category.name}
@@ -105,7 +105,7 @@ async function CategoriesTable() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem asChild>
-                    <Link href={PATHS.ADMIN.CATEGORIES.EDIT(category.id)}>
+                    <Link href={ROUTES.ADMIN.CATEGORIES.EDIT.LINK(category.id)}>
                       Edit
                     </Link>
                   </DropdownMenuItem>

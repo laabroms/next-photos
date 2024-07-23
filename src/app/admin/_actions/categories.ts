@@ -8,7 +8,7 @@ import {
   deleteImageFromCloudinary,
   uploadImageToCloudinary,
 } from "@/cloudinary/utils";
-import { PATHS } from "@/utils/navigation";
+import { ROUTES } from "@/navigation/routes";
 import { isRedirectError } from "next/dist/client/components/redirect";
 import { imageSchema } from "./schemas";
 
@@ -46,9 +46,10 @@ export async function addCategory(prevState: unknown, formData: FormData) {
       },
     });
 
-    revalidatePath(PATHS.HOME);
-    revalidatePath(PATHS.ADMIN.CATEGORIES.BASE);
-    redirect(PATHS.ADMIN.CATEGORIES.BASE);
+    revalidatePath(ROUTES.HOME.PATH);
+    revalidatePath(ROUTES.CATEGORY.PATH);
+    revalidatePath(ROUTES.ADMIN.CATEGORIES.BASE.PATH);
+    redirect(ROUTES.ADMIN.CATEGORIES.BASE.PATH);
   } catch (error: any) {
     if (isRedirectError(error)) throw error;
     console.error("Failed to upload image:", error);
@@ -93,7 +94,7 @@ export async function updateCategory(
       imageId = uploadResult.public_id;
     } catch (error: any) {
       console.error("Failed to upload image:", error);
-      return error.message || "Failed to upload";
+      throw new Error(error.message || "Failed to upload");
     }
   }
 
@@ -106,17 +107,18 @@ export async function updateCategory(
     },
   });
 
-  revalidatePath(PATHS.HOME);
-  revalidatePath(PATHS.ADMIN.CATEGORIES.BASE);
+  revalidatePath(ROUTES.HOME.PATH);
+  revalidatePath(ROUTES.CATEGORY.PATH);
+  revalidatePath(ROUTES.ADMIN.CATEGORIES.BASE.PATH);
 
-  redirect(PATHS.ADMIN.CATEGORIES.BASE);
+  redirect(ROUTES.ADMIN.CATEGORIES.BASE.PATH);
 }
 
 export async function toggleCategoryVisibility(id: string, isVisible: boolean) {
   await db.category.update({ where: { id }, data: { isVisible } });
 
-  revalidatePath(PATHS.HOME);
-  revalidatePath(PATHS.ADMIN.CATEGORIES.BASE);
+  revalidatePath(ROUTES.HOME.PATH);
+  revalidatePath(ROUTES.ADMIN.CATEGORIES.BASE.PATH);
 }
 
 export async function deleteCategory(id: string) {
@@ -125,6 +127,7 @@ export async function deleteCategory(id: string) {
   if (category === null) return notFound();
 
   deleteImageFromCloudinary(category.imageId);
-  revalidatePath(PATHS.HOME);
-  revalidatePath(PATHS.ADMIN.CATEGORIES.BASE);
+  revalidatePath(ROUTES.HOME.PATH);
+  revalidatePath(ROUTES.CATEGORY.PATH);
+  revalidatePath(ROUTES.ADMIN.CATEGORIES.BASE.PATH);
 }

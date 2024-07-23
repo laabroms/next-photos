@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import PageHeader from "@/components/PageHeader";
 import db from "@/db/db";
-import { PATHS } from "@/utils/navigation";
+import { ROUTES } from "@/navigation/routes";
 import { PhotosTable } from "../../photos/_components/PhotoTable";
 
 export default async function AdminCategoryPage({
@@ -40,11 +40,20 @@ export default async function AdminCategoryPage({
     <>
       <div className="flex justify-between items-center gap-4 mb-4">
         <PageHeader>Category: {category.name}</PageHeader>
-        <Button asChild>
-          <Link href={`${PATHS.ADMIN.PHOTOS.NEW}?categoryId=${category.id}`}>
-            Add photo to {category.name}
-          </Link>
-        </Button>
+        <div className="flex gap-4">
+          <Button asChild variant="outline">
+            <Link href={ROUTES.ADMIN.CATEGORIES.ID.LINK(category.id)}>
+              Update category
+            </Link>
+          </Button>
+          <Button asChild>
+            <Link
+              href={`${ROUTES.ADMIN.PHOTOS.NEW.PATH}?categoryId=${category.id}`}
+            >
+              Add photo to {category.name}
+            </Link>
+          </Button>
+        </div>
       </div>
       <PhotosTable photos={photos} />
     </>

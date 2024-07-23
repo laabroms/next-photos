@@ -6,6 +6,7 @@ type CloudinaryImageType = {
   alt: string;
   width?: number;
   height?: number;
+  [key: string]: any;
 };
 
 const CloudinaryImage = ({
@@ -13,6 +14,7 @@ const CloudinaryImage = ({
   alt,
   width,
   height,
+  ...rest
 }: CloudinaryImageType) => {
   return (
     <CldImage
@@ -22,6 +24,7 @@ const CloudinaryImage = ({
       sizes="100vw"
       alt={alt}
       className="rounded"
+      {...rest}
     />
   );
 };

@@ -39,7 +39,7 @@ model Photo {
 
 model Category {
     id          String   @id @default(uuid())
-    name        String   @unique()
+    name        String   @unique
     description String
     imageId     String
     isVisible   Boolean  @default(true)

@@ -27,14 +27,16 @@ export function PhotoForm({
   photo?: Photo | null;
   categories: Pick<Category, "name" | "id">[];
 }) {
-  const [error, action] = useFormState(
-    photo ? updatePhoto.bind(null, photo.id) : addPhoto,
-    {}
-  );
-
   const searchParams = useSearchParams();
 
   const selectedCategoryId = searchParams.get("categoryId");
+
+  const [error, action] = useFormState(
+    photo
+      ? updatePhoto.bind(null, photo.id).bind(null, selectedCategoryId)
+      : addPhoto.bind(null, selectedCategoryId),
+    {}
+  );
 
   const [categoryId, setCategoryId] = useState<string | undefined>(
     selectedCategoryId || undefined

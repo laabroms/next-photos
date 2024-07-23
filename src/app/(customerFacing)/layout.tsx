@@ -1,5 +1,6 @@
 import { Nav } from "@/components/Nav";
-import { userNavItems } from "@/utils/navigation";
+import { PageBreadcrumb } from "@/components/PageBreadcrumb";
+import { userNavItems } from "@/navigation/routes";
 
 export const dynamic = "force-dynamic";
 
@@ -9,6 +10,7 @@ export default function Layout({
   return (
     <>
       <Nav navItems={userNavItems} />
+      <PageBreadcrumb />
       <div className="container my-6">{children}</div>
     </>
   );

@@ -8,7 +8,7 @@ import {
   deleteImageFromCloudinary,
   uploadImageToCloudinary,
 } from "@/cloudinary/utils";
-import { PATHS } from "@/utils/navigation";
+import { ROUTES } from "@/navigation/routes";
 import { isRedirectError } from "next/dist/client/components/redirect";
 import { imageSchema } from "./schemas";
 
@@ -19,7 +19,11 @@ const addSchema = z.object({
   categoryId: z.string().min(1),
 });
 
-export async function addPhoto(prevState: unknown, formData: FormData) {
+export async function addPhoto(
+  selectedCategoryId: string,
+  prevState: unknown,
+  formData: FormData
+) {
   const result = addSchema.safeParse(Object.fromEntries(formData.entries()));
   if (!result.success) {
     return result.error.formErrors.fieldErrors;
@@ -48,9 +52,14 @@ export async function addPhoto(prevState: unknown, formData: FormData) {
       },
     });
 
-    revalidatePath(PATHS.HOME);
-    revalidatePath(PATHS.ADMIN.PHOTOS.BASE);
-    redirect(PATHS.ADMIN.PHOTOS.BASE);
+    revalidatePath(ROUTES.HOME.PATH);
+    revalidatePath(ROUTES.CATEGORY.PATH);
+    revalidatePath(ROUTES.ADMIN.PHOTOS.BASE.PATH);
+    redirect(
+      selectedCategoryId
+        ? ROUTES.ADMIN.CATEGORIES.ID.LINK(selectedCategoryId)
+        : ROUTES.ADMIN.PHOTOS.BASE.PATH
+    );
   } catch (error: any) {
     if (isRedirectError(error)) throw error;
     console.error("Failed to upload image:", error);
@@ -64,6 +73,7 @@ const editSchema = addSchema.extend({
 
 export async function updatePhoto(
   id: string,
+  selectedCategoryId: string,
   prevState: unknown,
   formData: FormData
 ) {
@@ -108,17 +118,24 @@ export async function updatePhoto(
     },
   });
 
-  revalidatePath(PATHS.HOME);
-  revalidatePath(PATHS.ADMIN.CATEGORIES.BASE);
+  revalidatePath(ROUTES.HOME.PATH);
+  revalidatePath(ROUTES.CATEGORY.PATH);
 
-  redirect(PATHS.ADMIN.CATEGORIES.BASE);
+  revalidatePath(ROUTES.ADMIN.PHOTOS.BASE.PATH);
+
+  redirect(
+    selectedCategoryId
+      ? ROUTES.ADMIN.CATEGORIES.ID.LINK(selectedCategoryId)
+      : ROUTES.ADMIN.PHOTOS.BASE.PATH
+  );
 }
 
 export async function togglePhotoVisibility(id: string, isVisible: boolean) {
   await db.photo.update({ where: { id }, data: { isVisible } });
 
-  revalidatePath(PATHS.HOME);
-  revalidatePath(PATHS.ADMIN.CATEGORIES.BASE);
+  revalidatePath(ROUTES.HOME.PATH);
+  revalidatePath(ROUTES.CATEGORY.PATH);
+  revalidatePath(ROUTES.ADMIN.CATEGORIES.BASE.PATH);
 }
 
 export async function deletePhoto(id: string) {
@@ -127,6 +144,7 @@ export async function deletePhoto(id: string) {
   if (photo === null) return notFound();
 
   deleteImageFromCloudinary(photo.imageId);
-  revalidatePath(PATHS.HOME);
-  revalidatePath(PATHS.ADMIN.CATEGORIES.BASE);
+  revalidatePath(ROUTES.HOME.PATH);
+  revalidatePath(ROUTES.CATEGORY.PATH);
+  revalidatePath(ROUTES.ADMIN.CATEGORIES.BASE.PATH);
 }

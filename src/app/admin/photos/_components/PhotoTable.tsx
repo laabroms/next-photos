@@ -17,7 +17,7 @@ import {
 import { ActiveToggleDropdownItem, DeleteDropdownItem } from "./PhotoActions";
 import CloudinaryImage from "@/components/CloudinaryImage/CloudinaryImage";
 import { Photo } from "@prisma/client";
-import { PATHS } from "@/utils/navigation";
+import { ROUTES } from "@/navigation/routes";
 import Link from "next/link";
 
 type TablePhoto = Pick<Photo, "id" | "name" | "imageId" | "isVisible"> & {
@@ -71,7 +71,9 @@ export async function PhotosTable({ photos }: { photos: TablePhoto[] }) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem asChild>
-                    <Link href={PATHS.ADMIN.PHOTOS.EDIT(photo.id)}>Edit</Link>
+                    <Link href={ROUTES.ADMIN.PHOTOS.EDIT.LINK(photo.id)}>
+                      Edit
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <ActiveToggleDropdownItem
