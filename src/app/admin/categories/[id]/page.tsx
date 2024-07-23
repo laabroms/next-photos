@@ -42,7 +42,7 @@ export default async function AdminCategoryPage({
         <PageHeader>Category: {category.name}</PageHeader>
         <div className="flex gap-4">
           <Button asChild variant="outline">
-            <Link href={ROUTES.ADMIN.CATEGORIES.ID.LINK(category.id)}>
+            <Link href={ROUTES.ADMIN.CATEGORIES.EDIT.LINK(category.id)}>
               Update category
             </Link>
           </Button>

@@ -4,7 +4,6 @@ import db from "@/db/db";
 import { cache } from "@/lib/cache";
 import React, { Suspense } from "react";
 
-<<<<<<< HEAD
 // const getPhotosByCategory = cache(
 //   (name) => {
 //     return db.category.findFirst({
@@ -23,8 +22,6 @@ import React, { Suspense } from "react";
 //   },
 //   ["getPhotosByCategory", "/categories/[name]"]
 // );
-=======
->>>>>>> laabroms/image-gallery
 const getPhotosByCategory = (name: string) => {
   return db.category.findFirst({
     where: { name },
@@ -35,11 +32,8 @@ const getPhotosByCategory = (name: string) => {
           name: true,
           imageId: true,
           isVisible: true,
-<<<<<<< HEAD
-=======
           width: true,
           height: true,
->>>>>>> laabroms/image-gallery
         },
       },
     },
@@ -65,7 +59,7 @@ export default function SelectedCategoryPage({
           </>
         }
       >
-        <CategoriesSuspense {...{ name }} />
+        <CategoriesSuspense {...{ name: decodeURIComponent(name) }} />
       </Suspense>
     </div>
   );

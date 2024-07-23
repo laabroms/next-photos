@@ -31,18 +31,17 @@ export const PageBreadcrumb = (): ReactElement => {
           )}
           {pathnames.map((pathname, index) => {
             const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
+            const formattedName = titleCase(decodeURIComponent(pathname));
             if (index === pathnames.length - 1) {
               return (
-                <BreadcrumbPage key={index}>
-                  {titleCase(pathname)}
-                </BreadcrumbPage>
+                <BreadcrumbPage key={index}>{formattedName}</BreadcrumbPage>
               );
             }
             return (
               <>
                 <BreadcrumbItem key={index}>
                   <BreadcrumbLink href={routeTo}>
-                    {titleCase(pathname)}
+                    {formattedName}
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
