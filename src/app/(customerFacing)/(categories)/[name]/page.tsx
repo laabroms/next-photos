@@ -4,26 +4,23 @@ import db from "@/db/db";
 import { cache } from "@/lib/cache";
 import React, { Suspense } from "react";
 
-const getPhotosByCategory = cache(
-  (name) => {
-    return db.category.findFirst({
-      where: { name },
-      select: {
-        photos: {
-          select: {
-            id: true,
-            name: true,
-            imageId: true,
-            isVisible: true,
-            width: true,
-            height: true,
-          },
+const getPhotosByCategory = (name: string) => {
+  return db.category.findFirst({
+    where: { name },
+    select: {
+      photos: {
+        select: {
+          id: true,
+          name: true,
+          imageId: true,
+          isVisible: true,
+          width: true,
+          height: true,
         },
       },
-    });
-  },
-  ["getPhotosByCategory", "/categories/[name]"]
-);
+    },
+  });
+};
 
 export default function SelectedCategoryPage({
   params: { name },
@@ -50,9 +47,8 @@ export default function SelectedCategoryPage({
   );
 }
 
-const widths = [400, 800, 1200];
-
-const ratios = [16 / 9, 32 / 9, 48 / 9, 64 / 9];
+const widths = [500, 1000, 2000];
+const ratios = [2.2, 4, 6, 8];
 
 async function CategoriesSuspense({ name }: { name: string }) {
   const data = await getPhotosByCategory(name);
@@ -67,12 +63,12 @@ async function CategoriesSuspense({ name }: { name: string }) {
       photo.width && photo.height ? photo.width / photo.height : 16 / 9,
   }));
 
-  console.log(data);
-  console.log(formattedImages);
-
   return (
-    <ImageGallery widths={widths} ratios={ratios} images={formattedImages} />
+    <ImageGallery
+      widths={widths}
+      ratios={ratios}
+      images={formattedImages}
+      gap="2px"
+    />
   );
-
-  return data?.photos?.map((photo) => <PhotoCard key={photo.id} {...photo} />);
 }

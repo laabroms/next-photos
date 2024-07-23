@@ -46,7 +46,12 @@ export function CategoryForm({ category }: { category?: Category | null }) {
         <Label htmlFor="image">Image</Label>
         <Input type="file" id="image" name="image" required={!category} />
         {!!category && (
-          <CloudinaryImage imageId={category.imageId} alt={category.name} />
+          <CloudinaryImage
+            imageId={category.imageId}
+            alt={category.name}
+            height={200}
+            width={200}
+          />
         )}
         {error.image && <div className="text-destructive">{error.image}</div>}
       </div>

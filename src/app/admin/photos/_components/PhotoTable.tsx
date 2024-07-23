@@ -59,7 +59,12 @@ export async function PhotosTable({ photos }: { photos: TablePhoto[] }) {
               )}
             </TableCell>
             <TableCell>
-              <CloudinaryImage imageId={photo.imageId} alt={photo.name} />
+              <CloudinaryImage
+                imageId={photo.imageId}
+                alt={photo.name}
+                height={200}
+                width={200}
+              />
             </TableCell>
             <TableCell>{photo.name}</TableCell>
             <TableCell>{photo.category.name}</TableCell>

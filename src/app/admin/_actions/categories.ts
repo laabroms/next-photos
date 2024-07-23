@@ -38,11 +38,14 @@ export async function addCategory(prevState: unknown, formData: FormData) {
       imageId,
       "category"
     );
+
     await db.category.create({
       data: {
         name: data.name,
         description: data.description || "",
         imageId: uploadResult.public_id,
+        height: uploadResult.height,
+        width: uploadResult.width,
       },
     });
 
@@ -78,6 +81,9 @@ export async function updateCategory(
 
   let imageId = category.imageId;
 
+  let height = category.height;
+  let width = category.width;
+
   if (data.image && data.image.size > 0) {
     // Upload new image
     const arrayBuffer = await data.image.arrayBuffer();
@@ -92,6 +98,8 @@ export async function updateCategory(
         "category"
       );
       imageId = uploadResult.public_id;
+      height = uploadResult.height;
+      width = uploadResult.width;
     } catch (error: any) {
       console.error("Failed to upload image:", error);
       throw new Error(error.message || "Failed to upload");
@@ -104,6 +112,8 @@ export async function updateCategory(
       name: data.name,
       description: data.description,
       imageId,
+      width,
+      height,
     },
   });
 

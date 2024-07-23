@@ -7,6 +7,7 @@ type CloudinaryImageType = {
   width?: number;
   height?: number;
   sizes?: string;
+  withBorderRadius?: boolean;
   [key: string]: any;
 };
 
@@ -16,6 +17,7 @@ const CloudinaryImage = ({
   width,
   height,
   sizes,
+  withBorderRadius,
   ...rest
 }: CloudinaryImageType) => {
   return (
@@ -25,7 +27,7 @@ const CloudinaryImage = ({
       src={imageId}
       sizes={sizes ?? "100vw"}
       alt={alt}
-      className="rounded"
+      className={withBorderRadius ? "rounded" : ""}
       {...rest}
     />
   );
