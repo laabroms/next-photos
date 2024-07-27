@@ -56,11 +56,7 @@ export async function addPhoto(
     });
 
     revalidatePaths();
-    redirect(
-      selectedCategoryId
-        ? ROUTES.ADMIN.CATEGORIES.ID.LINK(selectedCategoryId)
-        : ROUTES.ADMIN.PHOTOS.BASE.PATH
-    );
+    redirect(ROUTES.ADMIN.CATEGORIES.ID.LINK(selectedCategoryId));
   } catch (error: any) {
     if (isRedirectError(error)) throw error;
     console.error("Failed to upload image:", error);
@@ -128,11 +124,7 @@ export async function updatePhoto(
 
   revalidatePaths();
 
-  redirect(
-    selectedCategoryId
-      ? ROUTES.ADMIN.CATEGORIES.ID.LINK(selectedCategoryId)
-      : ROUTES.ADMIN.PHOTOS.BASE.PATH
-  );
+  redirect(ROUTES.ADMIN.CATEGORIES.ID.LINK(selectedCategoryId));
 }
 
 export async function togglePhotoVisibility(id: string, isVisible: boolean) {

@@ -1,5 +1,4 @@
 import { useId } from "react";
-import { ImageLoader } from "next/image";
 import {
   GalleryCalculationProps,
   calculateImageSizes,
@@ -28,7 +27,6 @@ export type GalleryProps = GalleryCalculationProps & {
   overlay?: (index: number) => React.ReactNode;
   gap?: string;
   percentVw?: number;
-  imgLoader?: ImageLoader;
 };
 
 export function ImageGallery({
@@ -36,7 +34,6 @@ export function ImageGallery({
   gap = "1px",
   percentVw = 100,
   overlay,
-  imgLoader,
   ...props
 }: GalleryProps) {
   if (widths.length + 1 != props.ratios.length) {
@@ -104,7 +101,6 @@ export function ImageGallery({
                 imageId={props.images[i].imageId}
                 alt={props.images[i].name ?? ""}
                 fill
-                loader={imgLoader}
                 sizes={
                   widths
                     .map(

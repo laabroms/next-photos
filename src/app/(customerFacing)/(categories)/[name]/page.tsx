@@ -46,27 +46,25 @@ export default function SelectedCategoryPage({
   params: { name: string };
 }) {
   return (
-    <div>
-      <Suspense
-        fallback={
-          <>
-            <PhotoCardSkeleton />
-            <PhotoCardSkeleton />
-            <PhotoCardSkeleton />
-            <PhotoCardSkeleton />
-            <PhotoCardSkeleton />
-            <PhotoCardSkeleton />
-          </>
-        }
-      >
-        <CategoriesSuspense {...{ name: decodeURIComponent(name) }} />
-      </Suspense>
-    </div>
+    <Suspense
+      fallback={
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <PhotoCardSkeleton />
+          <PhotoCardSkeleton />
+          <PhotoCardSkeleton />
+          <PhotoCardSkeleton />
+          <PhotoCardSkeleton />
+          <PhotoCardSkeleton />
+        </div>
+      }
+    >
+      <CategoriesSuspense {...{ name: decodeURIComponent(name) }} />
+    </Suspense>
   );
 }
 
-const widths = [500, 1000, 2000];
-const ratios = [2.2, 4, 6, 8];
+const widths = [400, 600, 800, 1000];
+const ratios = [1, 2.5, 3, 3, 4];
 
 async function CategoriesSuspense({ name }: { name: string }) {
   const data = await getPhotosByCategory(name);
