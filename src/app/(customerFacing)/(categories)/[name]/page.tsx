@@ -1,27 +1,9 @@
-import { ImageGallery } from "@/components/ImageGallery";
-import { PhotoCard, PhotoCardSkeleton } from "@/components/PhotoCard";
+import { PhotoCardSkeleton } from "@/components/PhotoCard";
 import db from "@/db/db";
-import { cache } from "@/lib/cache";
+import { Photo } from "@prisma/client";
 import React, { Suspense } from "react";
+import { GalleryAndModal } from "./_components/GalleryAndModal";
 
-// const getPhotosByCategory = cache(
-//   (name) => {
-//     return db.category.findFirst({
-//       where: { name },
-//       select: {
-//         photos: {
-//           select: {
-//             id: true,
-//             name: true,
-//             imageId: true,
-//             isVisible: true,
-//           },
-//         },
-//       },
-//     });
-//   },
-//   ["getPhotosByCategory", "/categories/[name]"]
-// );
 const getPhotosByCategory = (name: string) => {
   return db.category.findFirst({
     where: { name },
@@ -39,6 +21,11 @@ const getPhotosByCategory = (name: string) => {
     },
   });
 };
+
+export type TableImage = Pick<
+  Photo,
+  "name" | "imageId" | "height" | "width" | "id"
+>;
 
 export default function SelectedCategoryPage({
   params: { name },
@@ -63,9 +50,6 @@ export default function SelectedCategoryPage({
   );
 }
 
-const widths = [400, 600, 800, 1000];
-const ratios = [1, 2.5, 3, 3, 4];
-
 async function CategoriesSuspense({ name }: { name: string }) {
   const data = await getPhotosByCategory(name);
 
@@ -73,18 +57,5 @@ async function CategoriesSuspense({ name }: { name: string }) {
     return "No photos found";
   }
 
-  const formattedImages = data!.photos.map((photo) => ({
-    ...photo,
-    aspect_ratio:
-      photo.width && photo.height ? photo.width / photo.height : 16 / 9,
-  }));
-
-  return (
-    <ImageGallery
-      widths={widths}
-      ratios={ratios}
-      images={formattedImages}
-      gap="2px"
-    />
-  );
+  return <GalleryAndModal photos={data!.photos} />;
 }

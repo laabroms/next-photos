@@ -1,10 +1,6 @@
-import { Photo } from "@prisma/client";
-import Image from "next/image";
+import { TableImage } from "@/app/(customerFacing)/(categories)/[name]/page";
 
-type NextImageType = typeof Image;
-type NextImageProps = NextImageType extends (props: infer P) => any ? P : never;
-
-type GalleryImage = Pick<Photo, "name" | "imageId" | "height" | "width"> & {
+type GalleryImage = TableImage & {
   aspect_ratio: number;
 }; // aspect_ratio = width / height
 

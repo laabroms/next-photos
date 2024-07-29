@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { forwardRef, useId } from "react";
 import {
   GalleryCalculationProps,
   calculateImageSizes,
@@ -27,34 +27,43 @@ export type GalleryProps = GalleryCalculationProps & {
   overlay?: (index: number) => React.ReactNode;
   gap?: string;
   percentVw?: number;
+  onImageClick: (id: string) => void;
+  ref: any;
+  lastViewedPhotoId: string | null;
 };
 
-export function ImageGallery({
-  widths,
-  gap = "1px",
-  percentVw = 100,
-  overlay,
-  ...props
-}: GalleryProps) {
-  if (widths.length + 1 != props.ratios.length) {
-    const isShorter = props.ratios.length < widths.length + 1;
-    throw new Error(
-      `'ratios' array is too ${
-        isShorter ? "short" : "long"
-      }. It should have length ${widths.length + 1} (because ${
-        widths.length
-      } breakpoints were provided), but has ${props.ratios.length}`
-    );
-  }
+export const ImageGallery = forwardRef(
+  ({
+    widths,
+    gap = "1px",
+    percentVw = 100,
+    overlay,
+    onImageClick,
+    ref,
+    lastViewedPhotoId,
+    ...props
+  }: GalleryProps) => {
+    if (widths.length + 1 != props.ratios.length) {
+      const isShorter = props.ratios.length < widths.length + 1;
+      throw new Error(
+        `'ratios' array is too ${
+          isShorter ? "short" : "long"
+        }. It should have length ${widths.length + 1} (because ${
+          widths.length
+        } breakpoints were provided), but has ${props.ratios.length}`
+      );
+    }
 
-  const [sizes, width_left] = calculateImageSizes(props);
+    const [sizes, width_left] = calculateImageSizes(props);
 
-  const id = useId().replace(/:/g, "");
+    const id = useId().replace(/:/g, "");
 
-  return (
-    <>
-      <style>
-        {`
+    console.log({ ref, lastViewedPhotoId });
+
+    return (
+      <>
+        <style>
+          {`
                 .next-gallery__element-${id} {
                     width: var(--next-gallery-1);
                     padding-bottom: calc(var(--next-gallery-1) / var(--next-gallery-ar));
@@ -64,9 +73,9 @@ export function ImageGallery({
                     flex-shrink: 0,
                     flex-grow: 1,
                 }` +
-          widths
-            .map(
-              (width: any, i: number) => `
+            widths
+              .map(
+                (width: any, i: number) => `
                             @media (min-width: ${width}px) {
                                 .next-gallery__element-${id} {
                                     width: var(--next-gallery-${i + 2});
@@ -78,44 +87,16 @@ export function ImageGallery({
                                     width: var(--next-gallery-${i + 2});
                                 }
                             }`
-            )
-            .join("")}
-      </style>
-      <div style={containerStyle}>
-        {sizes.map((size: number[], i: number) => (
-          <div
-            className={`next-gallery__element-${id}`}
-            key={i}
-            style={elementStyle(props.images[i].aspect_ratio, size)}
-          >
+              )
+              .join("")}
+        </style>
+        <div style={containerStyle}>
+          {sizes.map((size: number[], i: number) => (
             <div
-              style={{
-                position: "absolute",
-                top: gap,
-                left: gap,
-                right: gap,
-                bottom: gap,
-              }}
+              className={`next-gallery__element-${id}`}
+              key={i}
+              style={elementStyle(props.images[i].aspect_ratio, size)}
             >
-              <CloudinaryImage
-                imageId={props.images[i].imageId}
-                alt={props.images[i].name ?? ""}
-                fill
-                sizes={
-                  widths
-                    .map(
-                      (width: number, i: number) =>
-                        `(max-width: ${width}px) ${
-                          (percentVw / 100) * size[i]
-                        }vw`
-                    )
-                    .join(", ") +
-                  `, ${(percentVw / 100) * sizes[sizes.length - 1][i]}vw`
-                }
-              />
-            </div>
-
-            {overlay && (
               <div
                 style={{
                   position: "absolute",
@@ -123,24 +104,58 @@ export function ImageGallery({
                   left: gap,
                   right: gap,
                   bottom: gap,
-                  zIndex: 2,
                 }}
               >
-                {overlay(i)}
+                <button onClick={() => onImageClick(props.images[i].id)}>
+                  <CloudinaryImage
+                    imageId={props.images[i].imageId}
+                    alt={props.images[i].name ?? ""}
+                    fill
+                    ref={lastViewedPhotoId === props.images[i].id ? ref : null}
+                    sizes={
+                      widths
+                        .map(
+                          (width: number, i: number) =>
+                            `(max-width: ${width}px) ${
+                              (percentVw / 100) * size[i]
+                            }vw`
+                        )
+                        .join(", ") +
+                      `, ${(percentVw / 100) * sizes[sizes.length - 1][i]}vw`
+                    }
+                  />
+                </button>
               </div>
+
+              {overlay && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: gap,
+                    left: gap,
+                    right: gap,
+                    bottom: gap,
+                    zIndex: 2,
+                  }}
+                >
+                  {overlay(i)}
+                </div>
+              )}
+            </div>
+          ))}
+          <div
+            className={`next-gallery__wl-${id}`}
+            style={width_left.reduce(
+              (acc: { [x: string]: string }, val: any, idx: number) => (
+                (acc[`--next-gallery-${idx + 1}`] = `${val}%`), acc
+              ),
+              {} as Record<string, string>
             )}
-          </div>
-        ))}
-        <div
-          className={`next-gallery__wl-${id}`}
-          style={width_left.reduce(
-            (acc: { [x: string]: string }, val: any, idx: number) => (
-              (acc[`--next-gallery-${idx + 1}`] = `${val}%`), acc
-            ),
-            {} as Record<string, string>
-          )}
-        ></div>
-      </div>
-    </>
-  );
-}
+          ></div>
+        </div>
+      </>
+    );
+  }
+);
+
+ImageGallery.displayName = "ImageGallery";
