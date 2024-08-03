@@ -59,6 +59,10 @@ export default function PhotoModal({
     }
   });
 
+  console.log(curIndex);
+
+  console.log(direction);
+
   return (
     <Dialog
       static
@@ -83,7 +87,6 @@ export default function PhotoModal({
         photos={photos}
         changePhotoId={changePhotoId}
         closeModal={handleClose}
-        navigation={true}
       />
     </Dialog>
   );
