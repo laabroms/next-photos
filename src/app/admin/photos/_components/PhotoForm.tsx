@@ -41,8 +41,6 @@ export function PhotoForm({
     {}
   );
 
-  console.log(categories);
-
   return (
     <form action={action} className="space-y-8 mt-8">
       <div className="space-y-2">

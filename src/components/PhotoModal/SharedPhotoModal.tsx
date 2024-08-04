@@ -45,6 +45,8 @@ export default function SharedPhotoModal({
 
   const currentImage = photos[index];
 
+  console.log(direction);
+
   return (
     <MotionConfig
       transition={{
@@ -53,12 +55,12 @@ export default function SharedPhotoModal({
       }}
     >
       <div
-        className="relative z-50 flex aspect-[3/2] w-full max-w-7xl items-center top-0 wide:h-full xl:taller-than-854:h-auto"
+        className="relative z-50 flex w-full max-w-7xl h-full items-center justify-center top-0 wide:h-full xl:taller-than-854:h-auto"
         {...handlers}
       >
         {/* Main image */}
-        <div className="w-full overflow-hidden">
-          <div className="relative flex aspect-[3/2] items-center justify-center">
+        <div className="w-full overflow-hidden max-h-full h-full">
+          <div className="relative flex max-h-full max-w-full w-auto h-full object-contain items-center justify-center">
             <AnimatePresence initial={false} custom={direction}>
               <motion.div
                 key={index}
@@ -67,7 +69,7 @@ export default function SharedPhotoModal({
                 initial="enter"
                 animate="center"
                 exit="exit"
-                className="absolute w-full max-h-full h-full px-6"
+                className="absolute w-full max-h-full h-full pt-8 pb-[100px] px-6 object-contain"
               >
                 <CloudinaryImage
                   imageId={currentImage?.imageId || ""}
@@ -87,10 +89,10 @@ export default function SharedPhotoModal({
         <div className="absolute inset-0 mx-auto flex max-w-7xl items-center justify-center">
           {/* Buttons */}
           {loaded && (
-            <div className="relative aspect-[3/2] max-h-full w-full">
+            <div className="relative h-full mt-8 max-h-full w-full">
               {index > 0 && (
                 <button
-                  className="absolute left-3 top-[calc(50%-16px)] rounded-full bg-black/50 p-3 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white focus:outline-none"
+                  className="absolute left-3 top-[calc(50%-50px)] rounded-full bg-black/50 p-3 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white focus:outline-none"
                   style={{ transform: "translate3d(0, 0, 0)" }}
                   onClick={() => changePhotoId(index - 1)}
                 >
@@ -99,7 +101,7 @@ export default function SharedPhotoModal({
               )}
               {index + 1 < photos.length && (
                 <button
-                  className="absolute right-3 top-[calc(50%-16px)] rounded-full bg-black/50 p-3 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white focus:outline-none"
+                  className="absolute right-3 top-[calc(50%-50px)] rounded-full bg-black/50 p-3 text-white/75 backdrop-blur-lg transition hover:bg-black/75 hover:text-white focus:outline-none"
                   style={{ transform: "translate3d(0, 0, 0)" }}
                   onClick={() => changePhotoId(index + 1)}
                 >

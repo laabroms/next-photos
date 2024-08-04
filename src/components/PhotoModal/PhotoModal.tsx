@@ -2,16 +2,18 @@
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { motion } from "framer-motion";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { TableImage } from "@/app/(customerFacing)/(categories)/[name]/page";
 import SharedPhotoModal from "./SharedPhotoModal";
 import useKeypress from "@/hooks/useKeyPress";
+
+type TableImageWithIndex = TableImage & { index: number };
 
 export default function PhotoModal({
   photos,
   onClose,
 }: {
-  photos: TableImage[];
+  photos: TableImageWithIndex[];
   onClose?: (photoId: string) => void;
 }) {
   const router = useRouter();
@@ -22,7 +24,10 @@ export default function PhotoModal({
 
   const photoId = searchParams.get("photoId") ?? "";
 
-  const index = photos.findIndex((p) => p.id === photoId);
+  const index = useMemo(
+    () => photos.findIndex((p) => p.id === photoId),
+    [photoId, photos]
+  );
 
   const [direction, setDirection] = useState(0);
   const [curIndex, setCurIndex] = useState(index);
@@ -48,20 +53,19 @@ export default function PhotoModal({
   }
 
   useKeypress("ArrowRight", () => {
+    console.log("right");
     if (index + 1 < photos.length) {
       changePhotoId(index + 1);
     }
   });
 
   useKeypress("ArrowLeft", () => {
+    console.log("right");
+
     if (index > 0) {
       changePhotoId(index - 1);
     }
   });
-
-  console.log(curIndex);
-
-  console.log(direction);
 
   return (
     <Dialog
@@ -77,17 +81,18 @@ export default function PhotoModal({
         ref={overlayRef}
         as={motion.div}
         key="backdrop"
-        className="fixed inset-0 z-30 bg-black/70 backdrop-blur-2xl"
+        className="fixed inset-0 z-30 bg-black/70 backdrop-blur-2xl flex justify-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-      />
-      <SharedPhotoModal
-        index={curIndex}
-        direction={direction}
-        photos={photos}
-        changePhotoId={changePhotoId}
-        closeModal={handleClose}
-      />
+      >
+        <SharedPhotoModal
+          index={curIndex}
+          direction={direction}
+          photos={photos}
+          changePhotoId={changePhotoId}
+          closeModal={handleClose}
+        />
+      </DialogPanel>
     </Dialog>
   );
 }
