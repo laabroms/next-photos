@@ -16,15 +16,7 @@ export const GalleryAndModal = ({ photos }: { photos: TableImage[] }) => {
   const [lastViewedPhoto, setLastViewedPhoto] = useLastViewedPhoto();
   const photoId = searchParams.get("photoId");
 
-  const lastViewedPhotoRef = useRef<HTMLAnchorElement>(null);
-
-  //   useEffect(() => {
-  //     // This effect keeps track of the last viewed photo in the modal to keep the index page in sync when the user navigates back
-  //     if (lastViewedPhoto && !photoId) {
-  //       lastViewedPhotoRef.current?.scrollIntoView({ block: "center" });
-  //       setLastViewedPhoto(null);
-  //     }
-  //   }, [photoId, lastViewedPhoto, setLastViewedPhoto]);
+  const lastViewedPhotoRef = useRef<HTMLSpanElement>(null);
 
   const handleModalOpen = (imageId: string) => {
     router.replace(`${pathname}?${searchParams.toString()}&photoId=${imageId}`);
@@ -40,10 +32,15 @@ export const GalleryAndModal = ({ photos }: { photos: TableImage[] }) => {
     [photos]
   );
 
+  useEffect(() => {
+    if (lastViewedPhoto && !photoId) {
+      lastViewedPhotoRef.current?.scrollIntoView({ block: "center" });
+      setLastViewedPhoto(null);
+    }
+  }, [photoId, lastViewedPhoto, setLastViewedPhoto]);
+
   const onModalClose = (photoId: string) => {
     setLastViewedPhoto(photoId);
-    lastViewedPhotoRef.current?.scrollIntoView({ block: "center" });
-    setLastViewedPhoto(null);
   };
 
   return (
@@ -55,7 +52,7 @@ export const GalleryAndModal = ({ photos }: { photos: TableImage[] }) => {
         images={formattedImages}
         gap="2px"
         onImageClick={handleModalOpen}
-        ref={lastViewedPhotoRef}
+        photoRef={lastViewedPhotoRef}
         lastViewedPhotoId={lastViewedPhoto}
       />
     </>
