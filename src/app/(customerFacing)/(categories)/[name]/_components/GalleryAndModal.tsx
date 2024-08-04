@@ -24,11 +24,10 @@ export const GalleryAndModal = ({ photos }: { photos: TableImage[] }) => {
 
   const formattedImages = useMemo(
     () =>
-      photos.map((photo, index) => ({
+      photos.map((photo) => ({
         ...photo,
         aspect_ratio:
           photo.width && photo.height ? photo.width / photo.height : 16 / 9,
-        index,
       })),
     [photos]
   );
@@ -46,9 +45,7 @@ export const GalleryAndModal = ({ photos }: { photos: TableImage[] }) => {
 
   return (
     <>
-      {photoId && (
-        <PhotoModal photos={formattedImages} onClose={onModalClose} />
-      )}
+      {photoId && <PhotoModal photos={photos} onClose={onModalClose} />}
       <ImageGallery
         widths={widths}
         ratios={ratios}

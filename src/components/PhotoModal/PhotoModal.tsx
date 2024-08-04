@@ -7,13 +7,11 @@ import { TableImage } from "@/app/(customerFacing)/(categories)/[name]/page";
 import SharedPhotoModal from "./SharedPhotoModal";
 import useKeypress from "@/hooks/useKeyPress";
 
-type TableImageWithIndex = TableImage & { index: number };
-
 export default function PhotoModal({
   photos,
   onClose,
 }: {
-  photos: TableImageWithIndex[];
+  photos: TableImage[];
   onClose?: (photoId: string) => void;
 }) {
   const router = useRouter();
