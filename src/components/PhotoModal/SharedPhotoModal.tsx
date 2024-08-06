@@ -45,8 +45,6 @@ export default function SharedPhotoModal({
 
   const currentImage = photos[index];
 
-  console.log(direction);
-
   return (
     <MotionConfig
       transition={{

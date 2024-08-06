@@ -15,6 +15,7 @@ import { imageSchema } from "./schemas";
 const addSchema = z.object({
   name: z.string().min(1),
   description: z.string().optional(),
+  displayOrder: z.string().optional(),
   image: imageSchema.refine((file) => file.size > 0, "Required"),
 });
 
@@ -46,6 +47,7 @@ export async function addCategory(prevState: unknown, formData: FormData) {
         imageId: uploadResult.public_id,
         height: uploadResult.height,
         width: uploadResult.width,
+        displayOrder: data.displayOrder ? Number(data.displayOrder) : 0,
       },
     });
 
@@ -114,6 +116,7 @@ export async function updateCategory(
       imageId,
       width,
       height,
+      displayOrder: Number(data.displayOrder),
     },
   });
 

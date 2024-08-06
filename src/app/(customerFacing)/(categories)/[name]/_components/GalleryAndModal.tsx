@@ -5,6 +5,7 @@ import { ImageGallery } from "@/components/ImageGallery";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useLastViewedPhoto } from "@/hooks/useLastViewedPhoto";
 import PhotoModal from "@/components/PhotoModal/PhotoModal";
+import { useDisableRightClick } from "@/hooks/useDisableRightClick";
 
 const widths = [400, 600, 800, 1000];
 const ratios = [1, 2.5, 3, 3, 4];
@@ -15,11 +16,12 @@ export const GalleryAndModal = ({ photos }: { photos: TableImage[] }) => {
   const searchParams = useSearchParams();
   const [lastViewedPhoto, setLastViewedPhoto] = useLastViewedPhoto();
   const photoId = searchParams.get("photoId");
+  useDisableRightClick();
 
   const lastViewedPhotoRef = useRef<HTMLSpanElement>(null);
 
   const handleModalOpen = (imageId: string) => {
-    router.replace(`${pathname}?${searchParams.toString()}&photoId=${imageId}`);
+    router.replace(`${pathname}?photoId=${imageId}`);
   };
 
   const formattedImages = useMemo(

@@ -1,5 +1,6 @@
 "use client";
 import { CldImage } from "next-cloudinary";
+import { cn } from "@/lib/utils";
 
 type CloudinaryImageType = {
   imageId: string;
@@ -27,7 +28,7 @@ const CloudinaryImage = ({
       src={imageId}
       sizes={sizes ?? "100vw"}
       alt={alt}
-      className={withBorderRadius ? "rounded" : ""}
+      className={cn(withBorderRadius ? "rounded" : "", rest.className)}
       {...rest}
     />
   );

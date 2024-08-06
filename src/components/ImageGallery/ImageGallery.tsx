@@ -1,4 +1,4 @@
-import { forwardRef, LegacyRef, Ref, useId } from "react";
+import { forwardRef, LegacyRef, Ref, useEffect, useId } from "react";
 import {
   GalleryCalculationProps,
   calculateImageSizes,
@@ -124,6 +124,7 @@ export const ImageGallery = ({
                         .join(", ") +
                       `, ${(percentVw / 100) * sizes[sizes.length - 1][i]}vw`
                     }
+                    className="hover:opacity-90 transition-opacity"
                   />
                 </span>
               </button>

@@ -43,6 +43,18 @@ export function CategoryForm({ category }: { category?: Category | null }) {
         )}
       </div>
       <div className="space-y-2">
+        <Label htmlFor="displayOrder">Display Order</Label>
+        <Input
+          type="number"
+          id="displayOrder"
+          name="displayOrder"
+          defaultValue={category?.displayOrder || ""}
+        />
+        {error.displayOrder && (
+          <div className="text-destructive">{error.displayOrder}</div>
+        )}
+      </div>
+      <div className="space-y-2">
         <Label htmlFor="image">Image</Label>
         <Input type="file" id="image" name="image" required={!category} />
         {!!category && (

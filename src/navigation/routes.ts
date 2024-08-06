@@ -67,10 +67,10 @@ export const userNavItems: NavItem[] = [
     label: "Home",
     href: ROUTES.HOME.PATH,
   },
-  {
-    label: "About",
-    href: ROUTES.ABOUT.PATH,
-  },
+  // {
+  //   label: "About",
+  //   href: ROUTES.ABOUT.PATH,
+  // },
 ];
 
 export const adminNavItems: NavItem[] = [
@@ -85,13 +85,5 @@ export const adminNavItems: NavItem[] = [
   {
     label: "Categories",
     href: ROUTES.ADMIN.CATEGORIES.BASE.PATH,
-  },
-  {
-    label: "Customers",
-    href: ROUTES.ADMIN.CUSTOMERS.PATH,
-  },
-  {
-    label: "Orders",
-    href: ROUTES.ADMIN.ORDERS.PATH,
   },
 ];

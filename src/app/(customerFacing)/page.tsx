@@ -7,7 +7,7 @@ import { Suspense } from "react";
 const getCategories = cache(() => {
   return db.category.findMany({
     where: { isVisible: true },
-    orderBy: { name: "asc" },
+    orderBy: { displayOrder: "asc" },
   });
 }, ["/", "getCategories"]);
 

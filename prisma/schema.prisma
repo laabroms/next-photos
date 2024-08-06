@@ -41,16 +41,17 @@ model Photo {
 }
 
 model Category {
-    id          String   @id @default(uuid())
-    name        String   @unique
-    description String
-    imageId     String
-    width       Int      @default(200)
-    height      Int      @default(200)
-    isVisible   Boolean  @default(true)
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    photos      Photo[]
+    id           String   @id @default(uuid())
+    name         String   @unique
+    description  String
+    imageId      String
+    width        Int      @default(200)
+    height       Int      @default(200)
+    isVisible    Boolean  @default(true)
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+    photos       Photo[]
+    displayOrder Int      @default(0)
 }
 
 model User {
