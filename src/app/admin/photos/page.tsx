@@ -19,7 +19,7 @@ export default async function AdminPhotosPage() {
         },
       },
     },
-    orderBy: { name: "asc" },
+    orderBy: { displayOrder: "asc" },
   });
   return (
     <>

@@ -17,6 +17,7 @@ const getPhotosByCategory = (name: string) => {
           width: true,
           height: true,
         },
+        orderBy: { displayOrder: "asc" },
       },
     },
   });

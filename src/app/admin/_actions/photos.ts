@@ -16,6 +16,7 @@ const addSchema = z.object({
   name: z.string().min(1),
   description: z.string().optional(),
   image: imageSchema.refine((file) => file.size > 0, "Required"),
+  displayOrder: z.string().optional(),
   categoryId: z.string().min(1),
 });
 
@@ -52,6 +53,7 @@ export async function addPhoto(
         categoryId: data.categoryId,
         height: uploadResult.height,
         width: uploadResult.width,
+        displayOrder: data.displayOrder ? Number(data.displayOrder) : 0,
       },
     });
 
@@ -119,6 +121,7 @@ export async function updatePhoto(
       imageId,
       height,
       width,
+      displayOrder: Number(data.displayOrder),
     },
   });
 

@@ -66,6 +66,18 @@ export function PhotoForm({
         )}
       </div>
       <div className="space-y-2">
+        <Label htmlFor="displayOrder">Display Order</Label>
+        <Input
+          type="number"
+          id="displayOrder"
+          name="displayOrder"
+          defaultValue={photo?.displayOrder || ""}
+        />
+        {error.displayOrder && (
+          <div className="text-destructive">{error.displayOrder}</div>
+        )}
+      </div>
+      <div className="space-y-2">
         <Label htmlFor="image">Image</Label>
         <Input type="file" id="image" name="image" required={!photo} />
         {!!photo && (

@@ -20,7 +20,10 @@ import { Photo } from "@prisma/client";
 import { ROUTES } from "@/navigation/routes";
 import Link from "next/link";
 
-type TablePhoto = Pick<Photo, "id" | "name" | "imageId" | "isVisible"> & {
+type TablePhoto = Pick<
+  Photo,
+  "id" | "name" | "imageId" | "isVisible" | "displayOrder"
+> & {
   category: { name: string };
 };
 
@@ -37,6 +40,7 @@ export async function PhotosTable({ photos }: { photos: TablePhoto[] }) {
           <TableHead>Image</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Category</TableHead>
+          <TableHead>Display Order</TableHead>
           <TableHead className="w-0">
             <span className="sr-only">Actions</span>
           </TableHead>
@@ -68,6 +72,7 @@ export async function PhotosTable({ photos }: { photos: TablePhoto[] }) {
             </TableCell>
             <TableCell>{photo.name}</TableCell>
             <TableCell>{photo.category.name}</TableCell>
+            <TableCell>{photo.displayOrder}</TableCell>
             <TableCell>
               <DropdownMenu>
                 <DropdownMenuTrigger>

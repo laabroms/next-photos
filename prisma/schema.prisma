@@ -25,19 +25,20 @@ model Product {
 }
 
 model Photo {
-    id          String    @id @default(uuid())
-    name        String
-    description String
-    width       Int       @default(200)
-    height      Int       @default(200)
-    imageId     String
-    isVisible   Boolean   @default(true)
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime  @updatedAt
-    orders      Order[]
-    category    Category  @relation(fields: [categoryId], references: [id])
-    categoryId  String
-    product     Product[]
+    id           String    @id @default(uuid())
+    name         String
+    description  String
+    width        Int       @default(200)
+    height       Int       @default(200)
+    imageId      String
+    isVisible    Boolean   @default(true)
+    createdAt    DateTime  @default(now())
+    updatedAt    DateTime  @updatedAt
+    orders       Order[]
+    category     Category  @relation(fields: [categoryId], references: [id])
+    categoryId   String
+    product      Product[]
+    displayOrder Int       @default(0)
 }
 
 model Category {

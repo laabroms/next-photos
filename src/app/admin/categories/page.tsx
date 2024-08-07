@@ -49,7 +49,7 @@ async function CategoriesTable() {
       isVisible: true,
       _count: { select: { photos: true } },
     },
-    orderBy: { name: "asc" },
+    orderBy: { displayOrder: "asc" },
   });
 
   if (categories.length === 0) return <p>No Categories Found</p>;
@@ -64,6 +64,7 @@ async function CategoriesTable() {
           <TableHead>Image</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Photos</TableHead>
+          <TableHead>Display Order</TableHead>
           <TableHead className="w-0">
             <span className="sr-only">Actions</span>
           </TableHead>
@@ -102,6 +103,7 @@ async function CategoriesTable() {
               </Link>
             </TableCell>
             <TableCell>{category._count.photos}</TableCell>
+            <TableCell>{category.displayOrder}</TableCell>
             <TableCell>
               <DropdownMenu>
                 <DropdownMenuTrigger>
