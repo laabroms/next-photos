@@ -6,17 +6,17 @@ import { GalleryAndModal } from "./_components/GalleryAndModal";
 
 const getPhotosByCategory = (name: string) => {
   return db.category.findFirst({
-    where: { name },
+    where: { name, isVisible: true },
     select: {
       photos: {
         select: {
           id: true,
           name: true,
           imageId: true,
-          isVisible: true,
           width: true,
           height: true,
         },
+        where: { isVisible: true },
         orderBy: { displayOrder: "asc" },
       },
     },
