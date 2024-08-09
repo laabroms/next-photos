@@ -4,9 +4,9 @@ import { Photo } from "@prisma/client";
 import React, { Suspense } from "react";
 import { GalleryAndModal } from "./_components/GalleryAndModal";
 
-const getPhotosByCategory = (name: string) => {
+const getPhotosByCategory = (categoryName: string) => {
   return db.category.findFirst({
-    where: { name, isVisible: true },
+    where: { name: categoryName, isVisible: true },
     select: {
       photos: {
         select: {
