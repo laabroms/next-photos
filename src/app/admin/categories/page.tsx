@@ -47,6 +47,7 @@ async function CategoriesTable() {
       name: true,
       imageId: true,
       isVisible: true,
+      displayOrder: true,
       _count: { select: { photos: true } },
     },
     orderBy: { displayOrder: "asc" },
