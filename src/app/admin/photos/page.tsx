@@ -13,6 +13,7 @@ export default async function AdminPhotosPage() {
       name: true,
       imageId: true,
       isVisible: true,
+      displayOrder: true,
       category: {
         select: {
           name: true,

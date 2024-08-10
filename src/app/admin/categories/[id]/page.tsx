@@ -22,6 +22,7 @@ export default async function AdminCategoryPage({
         name: true,
         imageId: true,
         isVisible: true,
+        displayOrder: true,
         category: {
           select: {
             name: true,
