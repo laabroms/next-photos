@@ -54,6 +54,10 @@ export default function SelectedCategoryPage({
 async function CategoriesSuspense({ name }: { name: string }) {
   const data = await getPhotosByCategory(name);
 
+  if (!data) {
+    return <div>Category not found</div>;
+  }
+
   if (data?.photos.length === 0) {
     return "No photos found";
   }
