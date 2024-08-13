@@ -32,7 +32,7 @@ export default function PhotoModal({
 
   function handleClose() {
     onClose?.(photoId);
-    router.push(pathname);
+    router.replace(pathname);
   }
 
   function changePhotoId(newVal: number) {
@@ -47,7 +47,7 @@ export default function PhotoModal({
 
     const updatedSearchParams = new URLSearchParams(searchParams.toString());
     updatedSearchParams.set("photoId", query);
-    router.push(`${pathname}?${updatedSearchParams.toString()}`);
+    router.replace(`${pathname}?${updatedSearchParams.toString()}`);
   }
 
   useKeypress("ArrowRight", () => {
