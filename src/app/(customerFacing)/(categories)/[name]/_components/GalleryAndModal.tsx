@@ -21,7 +21,7 @@ export const GalleryAndModal = ({ photos }: { photos: TableImage[] }) => {
   const lastViewedPhotoRef = useRef<HTMLSpanElement>(null);
 
   const handleModalOpen = (imageId: string) => {
-    router.replace(`${pathname}?photoId=${imageId}`);
+    router.push(`${pathname}?photoId=${imageId}`);
   };
 
   const formattedImages = useMemo(
