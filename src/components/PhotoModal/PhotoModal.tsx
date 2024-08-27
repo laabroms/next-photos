@@ -27,8 +27,8 @@ export default function PhotoModal({
     [photoId, photos]
   );
 
-  const [direction, setDirection] = useState(0);
-  const [curIndex, setCurIndex] = useState(index);
+  const [direction, setDirection] = useState<number>(0);
+  const [curIndex, setCurIndex] = useState<number>(index);
 
   function handleClose() {
     onClose?.(photoId);

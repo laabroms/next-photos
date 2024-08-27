@@ -38,7 +38,7 @@ model Photo {
     category     Category  @relation(fields: [categoryId], references: [id])
     categoryId   String
     product      Product[]
-    displayOrder Int       @default(0)
+    displayOrder Int       @default(99)
 }
 
 model Category {
@@ -52,7 +52,7 @@ model Category {
     createdAt    DateTime @default(now())
     updatedAt    DateTime @updatedAt
     photos       Photo[]
-    displayOrder Int      @default(0)
+    displayOrder Int      @default(99)
 }
 
 model User {
