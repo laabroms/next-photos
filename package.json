@@ -34,6 +34,7 @@
     "react-hooks-global-state": "^2.1.0",
     "react-swipeable": "^7.0.1",
     "resend": "^3.2.0",
+    "sharp": "^0.33.5",
     "stripe": "^16.1.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",

@@ -11,6 +11,7 @@ import {
 import { ROUTES } from "@/navigation/routes";
 import { isRedirectError } from "next/dist/client/components/redirect";
 import { imageSchema } from "./schemas";
+import { compressImage } from "./utils";
 
 const addSchema = z.object({
   name: z.string().min(1),
@@ -39,8 +40,10 @@ export async function addPhoto(
   const imageId = crypto.randomUUID();
 
   try {
+    const compressedBuffer = await compressImage(buffer);
+
     const uploadResult = await uploadImageToCloudinary(
-      buffer,
+      compressedBuffer,
       imageId,
       "photo"
     );
@@ -99,8 +102,10 @@ export async function updatePhoto(
 
     try {
       await deleteImageFromCloudinary(imageId);
+      const compressedBuffer = await compressImage(buffer);
+
       const uploadResult = await uploadImageToCloudinary(
-        buffer,
+        compressedBuffer,
         newPhotoId,
         "category"
       );

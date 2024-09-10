@@ -32,7 +32,7 @@ export default function PhotoModal({
 
   function handleClose() {
     onClose?.(photoId);
-    router.push(pathname);
+    router.replace(pathname);
   }
 
   function changePhotoId(newVal: number) {
