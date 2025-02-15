@@ -1,6 +1,5 @@
 "use client";
 import {
-  ArrowTopRightOnSquareIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   XMarkIcon,

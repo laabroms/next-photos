@@ -21,6 +21,7 @@ export const GalleryAndModal = ({ photos }: { photos: TableImage[] }) => {
   const lastViewedPhotoRef = useRef<HTMLSpanElement>(null);
 
   const handleModalOpen = (imageId: string) => {
+    console.log("adding to history stack");
     router.push(`${pathname}?photoId=${imageId}`);
   };
 

@@ -32,7 +32,7 @@ export default function PhotoModal({
 
   function handleClose() {
     onClose?.(photoId);
-    router.replace(pathname);
+    router.back();
   }
 
   function changePhotoId(newVal: number) {
@@ -51,15 +51,12 @@ export default function PhotoModal({
   }
 
   useKeypress("ArrowRight", () => {
-    console.log("right");
     if (index + 1 < photos.length) {
       changePhotoId(index + 1);
     }
   });
 
   useKeypress("ArrowLeft", () => {
-    console.log("right");
-
     if (index > 0) {
       changePhotoId(index - 1);
     }
