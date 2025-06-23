@@ -11,7 +11,7 @@ export default function Layout({
     <>
       <Nav navItems={userNavItems} />
       <PageBreadcrumb />
-      <div className="container my-6">{children}</div>
+      <div className="container my-4 px-4">{children}</div>
     </>
   );
 }

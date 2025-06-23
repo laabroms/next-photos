@@ -18,7 +18,7 @@ export const PageBreadcrumb = (): ReactElement => {
   const pathnames = paths.split("/").filter((path) => path);
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4 px-4">
       <Breadcrumb>
         <BreadcrumbList>
           {pathnames.length > 0 && (
